@@ -10,12 +10,14 @@ class App extends Component {
   render() {
     return (
       <Layout>
+
         <Routes>
           <Route path="/" element={<QuizList />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/quiz/:id" element={<Quiz />} />
           <Route path="/form-hook" element={<FormHook />} />
         </Routes>
+
       </Layout>
     );
   }
