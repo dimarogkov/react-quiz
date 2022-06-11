@@ -6,7 +6,7 @@ import classes from './Drawer.module.css';
 const links = [
     {to: '/', name: 'List'},
     {to: '/auth', name: 'Auth'},
-    {to: '/quiz-create', name: 'Crate new test'}
+    {to: '/form-hook', name: 'React Hook Form'}
 ];
 
 class Drawer extends Component {

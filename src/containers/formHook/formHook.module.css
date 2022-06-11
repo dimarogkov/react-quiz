@@ -1,0 +1,44 @@
+.formHook {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    flex-grow: 1;
+    width: 100%;
+    background: linear-gradient(270deg, #f0613c 0%, #f0783c 100%);
+}
+
+.formHook > div {
+    width: 100%;
+    max-width: 600px;
+    padding: 0 20px;
+}
+
+.formHook h1 {
+    text-align: center;
+}
+
+.formHook form {
+    background: #eee;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+}
+.formHook .inputBlock {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.formHook .inputBlock label {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.formHook .inputBlock input {
+    position: relative;
+    display: block;
+    width: calc(100% - 22px);
+    padding: 0 10px;
+    height: 26px;
+}
