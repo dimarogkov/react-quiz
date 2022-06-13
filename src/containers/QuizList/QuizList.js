@@ -1,30 +1,58 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import classes from './QuizList.module.css';
-
-const list = [
-    {id: '1', name: 'Test One'},
-    {id: '2', name: 'Test Two'},
-    {id: '3', name: 'Test Tree'},
-    {id: '4', name: 'Test Foure'}
-];
+import axios from '../../axios/axios';
+import Loader from "../../components/Loading/Loader";
 
 class QuizList extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            quiz: [],
+            loading: true
+        }
+    }
+
+    async componentDidMount() {
+        try {
+            const newQuiz = [];
+            const respons = await axios.get('/quiz.json');
+            Object.keys(respons.data).forEach((item, index) => {
+                newQuiz.push({
+                    id: item,
+                    name: `Test № ${index + 1}`
+                });
+            });
+
+            this.setState({
+                quiz: newQuiz,
+                loading: false
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     render() {
         return(
             <div className={classes.QuizList}>
                 <div>
                     <h1>QuizList Component</h1>
 
-                    <ul>
-                        {list.map((test, index) => {
-                            return(
-                                <li key={index}>
-                                    <NavLink to={'/quiz/' + test.id}>{test.name}</NavLink>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    { this.state.loading
+                        ? <Loader />
+                        : <ul>
+                            {this.state.quiz.map(test => {
+                                return(
+                                    <li key={test.id}>
+                                        <NavLink to={'/quiz/' + test.id}>{test.name}</NavLink>
+                                    </li>
+                                );
+                            })}
+                          </ul>
+                    }
                 </div>
             </div>
         );

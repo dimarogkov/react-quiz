@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import classes from './Auth.module.css';
-import Button from '../../components/Button/Button';
 import Input from "../../components/Input/Input";
 import is from 'is_js'
+import axios from "axios";
 
 class Auth extends Component {
 
@@ -40,13 +40,37 @@ class Auth extends Component {
         }
     }
 
-    formSubmit = (e) => {
-        e.preventDefault();
+    onLogin = async () => {
+        try {
+            const authData = {
+                email: this.state.formControls.email.value,
+                password: this.state.formControls.pass.value,
+                returnSecureToken: true
+            };
+            const respos = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDgg4vfyYvpP0h8xHHyrFjUrTsGopItOw4', authData);
+            console.log(respos.data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    onLogin = () => {}
+    onRegistration = async () => {
+        try {
+            const authData = {
+                email: this.state.formControls.email.value,
+                password: this.state.formControls.pass.value,
+                returnSecureToken: true
+            };
+            const respos = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDgg4vfyYvpP0h8xHHyrFjUrTsGopItOw4', authData);
+            console.log(respos.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    onRegistration = () => {}
+    formSubmit = event => {
+        event.preventDefault();
+    }
 
     validateControl(value, validation) {
         if (!validation) {
@@ -118,17 +142,19 @@ class Auth extends Component {
                     <form className={classes.AuthForm} onSubmit={this.formSubmit}>
                         { this.renderInputs() }
 
-                        <Button 
-                            type="success"
-                            buttonText="Login"
-                            disabled={!this.state.isFormValid} 
-                            onClick={this.onLogin}/>
+                        <button
+                            type="button"
+                            disabled={!this.state.isFormValid}
+                            onClick={this.onLogin}
+                            className={classes.primary}
+                        >Login</button>
 
-                        <Button 
-                            type="primary" 
-                            buttonText="Registration" 
-                            disabled={!this.state.isFormValid} 
-                            onClick={this.onRegistration}/>
+                        <button
+                            type="button"
+                            disabled={!this.state.isFormValid}
+                            onClick={this.onRegistration}
+                            className={classes.success}
+                        >Registration</button>
                     </form>
                 </div>
             </div>

@@ -1,0 +1,54 @@
+.QuizCreateForm {
+    background: #eee;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+}
+.QuizCreateForm .inputBlock {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.QuizCreateForm .inputBlock label {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.QuizCreateForm .inputBlock input {
+    position: relative;
+    display: block;
+    width: calc(100% - 22px);
+    padding: 0 10px;
+    height: 26px;
+}
+.QuizCreateForm .inputBlock .errorMessage {
+    color: red;
+    font-size: 15px;
+    margin: 5px 0 0 0;
+}
+.QuizCreateForm .inputBlock .select {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.formBtn {
+    position: relative;
+    display: inline-block;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #363f54;
+    border: none;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+.formBtn:last-child {margin-right: 0;}
+.formBtn[disabled] {
+    opacity: 0.7;
+    pointer-events: none;
+}
