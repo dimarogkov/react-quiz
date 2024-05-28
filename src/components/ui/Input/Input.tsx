@@ -21,7 +21,7 @@ export const Input: React.FC<Props> = ({
     className = '',
 }) => {
     const textStyles = `w-full h-[40px] px-[16px] rounded-[4px] border border-slate-300 outline-none transition-all duration-300 focus:border-black ${className}`;
-    const checkboxStyles = `absolute left-[10px] w-[16px] h-[16px] cursor-pointer`;
+    const checkboxStyles = `absolute left-[10px] w-[16px] h-[16px] cursor-pointer ${className}`;
 
     return (
         <input

@@ -1,4 +1,5 @@
 export interface QuizData {
+    id: string;
     question: string;
     incorrectAnswers: string[];
     correctAnswer: string[];
