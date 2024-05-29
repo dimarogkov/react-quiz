@@ -1,7 +1,7 @@
-import { BsPlusLg } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { BsPlusLg } from 'react-icons/bs';
 
-export const CreateQuiz = () => {
+export const CreateQuizLink = () => {
     return (
         <Link
             to='/quiz/new'

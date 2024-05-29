@@ -5,13 +5,14 @@ import { actions } from '../../../store/createQuizReducer';
 
 import { QuizData } from '../../../types/interfaces/Quiz';
 
+import { AddAnswersForm } from '../AddAnswersForm';
+
 import { Label } from '../../ui/Label';
 import { Content } from '../../ui/Content';
 import { Input } from '../../ui/Input';
 import { RemoveBtn } from '../../ui/RemoveBtn';
 import { Btn } from '../../ui/Btn';
-
-import { AddAnswersForm } from '../AddAnswersForm';
+import { quizDataStore } from '../../../types/interfaces/QuizDataStore';
 
 type Props = {
     setIsQuestionShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,7 +31,7 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
         );
     }, [answerArr]);
 
-    const addAnswer = () => {
+    const addDefaultAnswer = () => {
         const newAnswer = {
             id: crypto.randomUUID(),
             text: '',
@@ -41,14 +42,16 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
     };
 
     const setToQuizData = useCallback(() => {
-        const quizQuestion: QuizData = {
+        const modifiedQuizQuestion: QuizData = {
             id: crypto.randomUUID(),
             question: question,
             incorrectAnswers: answerArr.filter(({ isCorrectAnswer }) => !isCorrectAnswer).map(({ text }) => text),
             correctAnswer: answerArr.filter(({ isCorrectAnswer }) => isCorrectAnswer).map(({ text }) => text),
         };
+        const quizQuestion: quizDataStore = { id: crypto.randomUUID(), question, answerArr };
 
-        dispatch(actions.addQuizData(quizQuestion));
+        dispatch(actions.addQuizData(modifiedQuizQuestion));
+        dispatch(actions.addQuizDataStore(quizQuestion));
         dispatch(actions.removeQuestion());
         setIsQuestionShow(false);
     }, [answerArr, dispatch, question, setIsQuestionShow]);
@@ -67,7 +70,7 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
                     <Input
                         name='question'
                         value={question}
-                        onChange={({ target }) => dispatch(actions.addQuestion(target.value))}
+                        onChange={({ target }) => dispatch(actions.addQuestion(target.value.trim()))}
                         className='pr-[32px]'
                     />
 
@@ -75,13 +78,15 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
                 </div>
             </Label>
 
-            {answerArr.length > 0 && <AddAnswersForm />}
+            <AddAnswersForm />
 
-            <div className='flex w-full gap-x-[8px]'>
-                {isNewQuestionBtnShow && <Btn onClick={setToQuizData}>Add New Question</Btn>}
-
-                <Btn disabled={question.length <= 0} onClick={addAnswer}>
+            <div className='flex flex-col sm:flex-row w-full gap-[8px]'>
+                <Btn disabled={question.length <= 0} onClick={addDefaultAnswer}>
                     Add Answer
+                </Btn>
+
+                <Btn disabled={!isNewQuestionBtnShow} onClick={setToQuizData}>
+                    Add New Question
                 </Btn>
             </div>
         </>
