@@ -3,32 +3,32 @@ import { useAppSelector } from '../../../store';
 
 export const QuestionsList = () => {
     const state = useAppSelector((state) => state.createQuiz);
-    const { quizData } = state;
+    const { quizDataStore } = state;
+    console.log(quizDataStore);
 
     return (
-        <>
-            {quizData.map(({ id, question, incorrectAnswers, correctAnswer }) => {
-                const answers = [...correctAnswer, ...incorrectAnswers];
+        <div className='relative w-full'>
+            {quizDataStore.length > 0 &&
+                quizDataStore.map(({ id, question, answerArr }) => {
+                    return (
+                        <div className='w-full mb-[16px] last:mb-0' key={id}>
+                            <h3 className='w-full text-[20px] font-medium mb-[4px] last:mb-0'>{question}</h3>
 
-                return (
-                    <div className='w-full mb-[16px] last:mb-0' key={id}>
-                        <h3 className='w-full text-[20px] font-medium mb-[4px] last:mb-0'>{question}</h3>
-
-                        <ul className='w-full'>
-                            {answers.map((answer) => (
-                                <li
-                                    key={answer}
-                                    className={cn('relative w-full', {
-                                        'text-green-500': correctAnswer.includes(answer),
-                                    })}
-                                >
-                                    {answer}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                );
-            })}
-        </>
+                            <ul className='w-full'>
+                                {answerArr.map(({ id, text, isCorrectAnswer }) => (
+                                    <li
+                                        key={id}
+                                        className={cn('relative w-full', {
+                                            'text-[#22c55e]': isCorrectAnswer,
+                                        })}
+                                    >
+                                        {text}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    );
+                })}
+        </div>
     );
 };

@@ -46,29 +46,30 @@ export const AddAnswersForm = () => {
 
     return (
         <>
-            {answerArr.map((answer) => (
-                <Label className='flex items-center mb-[16px] md:mb-[20px] last:m-0' key={answer.id}>
-                    <Input
-                        type={AnswerInputTypes.checkbox}
-                        name='answer_checkbox'
-                        checked={answer.isCorrectAnswer}
-                        onChange={({ target }) => setAnswer(target.value, answer, AnswerInputTypes.checkbox)}
-                    />
+            {answerArr.length > 0 &&
+                answerArr.map((answer) => (
+                    <Label className='flex items-center mb-[16px] md:mb-[20px] last:m-0' key={answer.id}>
+                        <Input
+                            type={AnswerInputTypes.checkbox}
+                            name='answer_checkbox'
+                            checked={answer.isCorrectAnswer}
+                            onChange={({ target }) => setAnswer(target.value, answer, AnswerInputTypes.checkbox)}
+                        />
 
-                    <Input
-                        name='answer_text'
-                        placeholder='Add Answer'
-                        value={answer.text}
-                        onChange={({ target }) => setAnswer(target.value, answer, AnswerInputTypes.text)}
-                        className='px-[32px]'
-                    />
+                        <Input
+                            name='answer_text'
+                            placeholder='Add Answer'
+                            value={answer.text}
+                            onChange={({ target }) => setAnswer(target.value, answer, AnswerInputTypes.text)}
+                            className='px-[32px]'
+                        />
 
-                    <RemoveBtn
-                        onClick={() => dispatch(actions.removeAnswer(answer.id))}
-                        className='top-auto right-[10px]'
-                    />
-                </Label>
-            ))}
+                        <RemoveBtn
+                            onClick={() => dispatch(actions.removeAnswer(answer.id))}
+                            className='top-auto right-[10px]'
+                        />
+                    </Label>
+                ))}
         </>
     );
 };
