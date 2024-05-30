@@ -26,7 +26,7 @@ export const CreateQuizForm = () => {
     const saveQuiz = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const quizzes = getDataFromLocalStorage();
-        const newQuiz: Quiz = { id: quizzes.length + 1, quizName, quizData };
+        const newQuiz: Quiz = { id: crypto.randomUUID(), quizName, quizData };
         const quizzesArr = [...quizzes, newQuiz];
 
         setDataToLocalStorage(quizzesArr);
