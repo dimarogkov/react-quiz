@@ -1,24 +1,29 @@
-import { Link } from 'react-router-dom';
 import { Quiz } from '../../../types/interfaces/Quiz';
+
 import { Content } from '../../ui/Content';
 import { Subtitle } from '../../ui/Subtitle';
+import { RemoveBtn } from '../../ui/RemoveBtn';
+import { BtnLink } from '../../ui/BtnLink';
 
 type Props = {
     quiz: Quiz;
+    removeQuiz: (id: string) => void;
 };
 
-export const QuizItem: React.FC<Props> = ({ quiz }) => {
+export const QuizItem: React.FC<Props> = ({ quiz, removeQuiz = () => {} }) => {
     const { id, quizName, quizData } = quiz;
 
     return (
-        <Link
-            to={`quiz/${id}`}
-            className='relative w-full h-full min-h-[160px] md:min-h-[200px] flex items-center rounded-[8px] p-[20px] bg-gradient-to-tr from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% cursor-pointer transition-opacity duration-400 hover:opacity-70'
-        >
-            <div>
-                <Subtitle className='text-white mb-[8px] last:mb-0'>{quizName}</Subtitle>
-                <Content className='text-white'>Number of questions - {quizData.length}</Content>
+        <div className='relative w-full h-full min-h-[160px] md:min-h-[200px] rounded-[8px] p-[20px] border-2 border-slate-300'>
+            <div className='flex flex-col w-full h-full'>
+                <div className='flex-grow w-full mb-[16px] last:mb-0'>
+                    <Subtitle className='mb-[8px] last:mb-0'>{quizName}</Subtitle>
+                    <Content>Number of questions - {quizData.length}</Content>
+                </div>
+
+                <BtnLink href={`quiz/${id}`}>Open Quiz</BtnLink>
+                <RemoveBtn className='top-[10px] right-[10px]' onClick={() => removeQuiz(id)} />
             </div>
-        </Link>
+        </div>
     );
 };

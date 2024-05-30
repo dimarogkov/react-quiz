@@ -1,10 +1,25 @@
-import { getDataFromLocalStorage } from '../../../helpers/localStorage';
-
+import { useState, useCallback } from 'react';
+import { getDataFromLocalStorage, setDataToLocalStorage } from '../../../helpers/localStorage';
 import { Quiz } from '../../../types/interfaces/Quiz';
 import { QuizItem } from '../QuizItem';
 
 export const QuizzesList = () => {
-    const quizzes: Quiz[] = getDataFromLocalStorage();
+    const [quizzesArr, setQuizzesArr] = useState<Quiz[]>(getDataFromLocalStorage());
 
-    return <>{quizzes.length > 0 && quizzes.map((quiz) => <QuizItem quiz={quiz} key={quiz.id} />)}</>;
+    const removeQuiz = useCallback(
+        (quizId: string) => {
+            const newQuizzesArr = [...quizzesArr].filter(({ id }) => id !== quizId);
+
+            setQuizzesArr(newQuizzesArr);
+            setDataToLocalStorage(newQuizzesArr);
+        },
+        [quizzesArr]
+    );
+
+    return (
+        <>
+            {quizzesArr.length > 0 &&
+                quizzesArr.map((quiz) => <QuizItem quiz={quiz} removeQuiz={removeQuiz} key={quiz.id} />)}
+        </>
+    );
 };
