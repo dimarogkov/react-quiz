@@ -1,8 +1,8 @@
 import { BsFillTrash3Fill } from 'react-icons/bs';
 
 type Props = {
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
     className?: string;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export const RemoveBtn: React.FC<Props> = ({ onClick = () => {}, className = '' }) => {

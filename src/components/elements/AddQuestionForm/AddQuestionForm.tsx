@@ -1,24 +1,26 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { actions } from '../../../store/createQuizReducer';
 
 import { QuizData } from '../../../types/interfaces/Quiz';
+import { quizDataStore } from '../../../types/interfaces/QuizDataStore';
 
-import { AddAnswersForm } from '../AddAnswersForm';
+import { AnswersList } from '../AnswersList';
 
 import { Label } from '../../ui/Label';
 import { Content } from '../../ui/Content';
 import { Input } from '../../ui/Input';
 import { RemoveBtn } from '../../ui/RemoveBtn';
 import { Btn } from '../../ui/Btn';
-import { quizDataStore } from '../../../types/interfaces/QuizDataStore';
 
 type Props = {
     setIsQuestionShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
+    const [questionValue, setQuestionValue] = useState('');
+
     const state = useAppSelector((state) => state.createQuiz);
     const { question, answerArr } = state;
     const dispatch = useAppDispatch();
@@ -69,16 +71,17 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
                 <div className='flex w-full items-center'>
                     <Input
                         name='question'
-                        value={question}
-                        onChange={({ target }) => dispatch(actions.addQuestion(target.value.trim()))}
                         className='pr-[32px]'
+                        value={questionValue}
+                        onChange={({ target }) => setQuestionValue(target.value)}
+                        onBlur={() => dispatch(actions.addQuestion(questionValue.trim()))}
                     />
 
                     <RemoveBtn onClick={removeQuestion} className='top-auto right-[10px]' />
                 </div>
             </Label>
 
-            <AddAnswersForm />
+            <AnswersList />
 
             <div className='flex flex-col sm:flex-row w-full gap-[8px]'>
                 <Btn disabled={question.length <= 0} onClick={addDefaultAnswer}>

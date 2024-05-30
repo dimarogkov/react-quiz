@@ -6,11 +6,9 @@ import { actions } from '../../../store/createQuizReducer';
 import { Answer } from '../../../types/interfaces/Answer';
 import { AnswerInputTypes } from '../../../types/enums/AnswerInputTypes';
 
-import { Label } from '../../ui/Label';
-import { Input } from '../../ui/Input';
-import { RemoveBtn } from '../../ui/RemoveBtn';
+import { AddAnswerForm } from '../AddAnswerForm';
 
-export const AddAnswersForm = () => {
+export const AnswersList = () => {
     const state = useAppSelector((state) => state.createQuiz);
     const { answerArr } = state;
     const dispatch = useAppDispatch();
@@ -44,31 +42,13 @@ export const AddAnswersForm = () => {
         [answerArr, dispatch]
     );
 
+    const removeAnswer = (id: string) => dispatch(actions.removeAnswer(id));
+
     return (
         <>
             {answerArr.length > 0 &&
                 answerArr.map((answer) => (
-                    <Label className='flex items-center mb-[16px] md:mb-[20px] last:m-0' key={answer.id}>
-                        <Input
-                            type={AnswerInputTypes.checkbox}
-                            name='answer_checkbox'
-                            checked={answer.isCorrectAnswer}
-                            onChange={({ target }) => setAnswer(target.value, answer, AnswerInputTypes.checkbox)}
-                        />
-
-                        <Input
-                            name='answer_text'
-                            placeholder='Add Answer'
-                            value={answer.text}
-                            onChange={({ target }) => setAnswer(target.value, answer, AnswerInputTypes.text)}
-                            className='px-[32px]'
-                        />
-
-                        <RemoveBtn
-                            onClick={() => dispatch(actions.removeAnswer(answer.id))}
-                            className='top-auto right-[10px]'
-                        />
-                    </Label>
+                    <AddAnswerForm answer={answer} setAnswer={setAnswer} removeAnswer={removeAnswer} key={answer.id} />
                 ))}
         </>
     );
