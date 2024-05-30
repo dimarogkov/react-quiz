@@ -6,6 +6,7 @@ export interface QuizData {
 }
 
 export interface Quiz {
+    id: string;
     quizName: string;
     quizData: QuizData[];
 }
