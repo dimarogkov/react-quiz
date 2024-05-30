@@ -4,7 +4,6 @@ import { useAppSelector } from '../../../store';
 export const QuestionsList = () => {
     const state = useAppSelector((state) => state.createQuiz);
     const { quizDataStore } = state;
-    console.log(quizDataStore);
 
     return (
         <div className='relative w-full'>

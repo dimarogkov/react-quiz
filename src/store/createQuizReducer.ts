@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { CreateQuizState } from '../types/interfaces/CreateQuizState';
 import { Answer } from '../types/interfaces/Answer';
@@ -42,10 +42,7 @@ const createQuizSlice = createSlice({
         addQuizDataStore: (state, action: PayloadAction<quizDataStore>) => {
             state.quizDataStore.push(action.payload);
         },
-        resetQuiz: (state) => {
-            console.log(initialState);
-            state = initialState;
-        },
+        resetQuiz: () => initialState,
     },
 });
 
