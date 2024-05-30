@@ -26,14 +26,12 @@ export const CreateQuizForm = () => {
     const saveQuiz = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const quizzes = getDataFromLocalStorage();
-        const newQuiz: Quiz = { quizName, quizData };
+        const newQuiz: Quiz = { id: quizzes.length + 1, quizName, quizData };
         const quizzesArr = [...quizzes, newQuiz];
 
         setDataToLocalStorage(quizzesArr);
         navigate('/');
     };
-
-    console.log(quizData);
 
     return (
         <form className='w-full mb-[20px] last:mb-0' onSubmit={saveQuiz}>
@@ -51,7 +49,7 @@ export const CreateQuizForm = () => {
 
             <div className='w-full mb-[16px] md:mb-[20px] last:mb-0'>
                 {!isQuestionShow ? (
-                    <Btn disabled={quizName.length <= 0} onClick={() => setIsQuestionShow(true)}>
+                    <Btn disabled={quizNameValue.length <= 0} onClick={() => setIsQuestionShow(true)}>
                         Add Question
                     </Btn>
                 ) : (

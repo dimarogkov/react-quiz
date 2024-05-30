@@ -14,9 +14,9 @@ export const Root = () => {
                 <Route path='/' element={<App />}>
                     <Route index element={<HomePage />} />
                     <Route path='quiz'>
-                        <Route index element={<QuizPage />} />
                         <Route path='new' element={<CreateQuizPage />} />
-                        <Route path=':quizId' element={<UpdateQuizPage />} />
+                        <Route path=':quizId' element={<QuizPage />} />
+                        <Route path='update/:quizId' element={<UpdateQuizPage />} />
                     </Route>
                     <Route path='*' element={<NotFoundPage />} />
                 </Route>
