@@ -4,7 +4,7 @@ import { App } from './App';
 import { HomePage } from './components/pages/HomePage';
 import { CreateQuizPage } from './components/pages/CreateQuizPage';
 import { NotFoundPage } from './components/pages/NotFoundPage';
-import { UpdateQuizPage } from './components/pages/UpdateQuizPage';
+import { EditQuizPage } from './components/pages/EditQuizPage';
 import { QuizPage } from './components/pages/QuizPage';
 
 export const Root = () => {
@@ -16,7 +16,7 @@ export const Root = () => {
                     <Route path='quiz'>
                         <Route path='new' element={<CreateQuizPage />} />
                         <Route path=':quizId' element={<QuizPage />} />
-                        <Route path='update/:quizId' element={<UpdateQuizPage />} />
+                        <Route path='edit/:quizId' element={<EditQuizPage />} />
                     </Route>
                     <Route path='*' element={<NotFoundPage />} />
                 </Route>

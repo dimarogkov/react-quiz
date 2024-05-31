@@ -2,10 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, createDispatchHook, createSelectorHook } from 'react-redux';
 
 import createQuizReducer from './createQuizReducer';
+import editQuizReducer from './editQuizReducer';
 
 export const store = configureStore({
     reducer: {
         createQuiz: createQuizReducer,
+        editQuiz: editQuizReducer,
     },
 });
 

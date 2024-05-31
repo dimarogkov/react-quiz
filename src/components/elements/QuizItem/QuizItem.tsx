@@ -4,6 +4,7 @@ import { Content } from '../../ui/Content';
 import { Subtitle } from '../../ui/Subtitle';
 import { RemoveBtn } from '../../ui/RemoveBtn';
 import { BtnLink } from '../../ui/BtnLink';
+import { EditBtn } from '../../ui/EditBtn';
 
 type Props = {
     quiz: Quiz;
@@ -22,7 +23,11 @@ export const QuizItem: React.FC<Props> = ({ quiz, removeQuiz = () => {} }) => {
                 </div>
 
                 <BtnLink href={`quiz/${id}`}>Open Quiz</BtnLink>
-                <RemoveBtn className='top-[10px] right-[10px]' onClick={() => removeQuiz(id)} />
+
+                <div className='absolute top-[10px] right-[10px] flex gap-[10px]'>
+                    <EditBtn href={`quiz/edit/${id}`} />
+                    <RemoveBtn className='relative top-auto right-auto' onClick={() => removeQuiz(id)} />
+                </div>
             </div>
         </div>
     );

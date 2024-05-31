@@ -3,14 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CreateQuizState } from '../types/interfaces/CreateQuizState';
 import { Answer } from '../types/interfaces/Answer';
 import { QuizData } from '../types/interfaces/Quiz';
-import { quizDataStore } from '../types/interfaces/QuizDataStore';
 
 const initialState: CreateQuizState = {
     quizName: '',
     question: '',
     answerArr: [],
     quizData: [],
-    quizDataStore: [],
 };
 
 const createQuizSlice = createSlice({
@@ -38,9 +36,6 @@ const createQuizSlice = createSlice({
         },
         addQuizData: (state, action: PayloadAction<QuizData>) => {
             state.quizData.push(action.payload);
-        },
-        addQuizDataStore: (state, action: PayloadAction<quizDataStore>) => {
-            state.quizDataStore.push(action.payload);
         },
         resetQuiz: () => initialState,
     },
