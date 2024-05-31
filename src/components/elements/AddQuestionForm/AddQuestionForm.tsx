@@ -1,10 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
+import cn from 'classnames';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { actions } from '../../../store/createQuizReducer';
 
+import { isInputValuePresent } from '../../../helpers/isInputValueExist';
+
 import { QuizData } from '../../../types/interfaces/Quiz';
-import { quizDataStore } from '../../../types/interfaces/QuizDataStore';
 
 import { AnswersList } from '../AnswersList';
 
@@ -13,6 +15,7 @@ import { Content } from '../../ui/Content';
 import { Input } from '../../ui/Input';
 import { RemoveBtn } from '../../ui/RemoveBtn';
 import { Btn } from '../../ui/Btn';
+import { ErrorMessage } from '../../ui/ErrorMessage';
 
 type Props = {
     setIsQuestionShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,6 +23,7 @@ type Props = {
 
 export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
     const [questionValue, setQuestionValue] = useState('');
+    const [error, setError] = useState('');
 
     const state = useAppSelector((state) => state.createQuiz);
     const { question, answerArr } = state;
@@ -33,6 +37,8 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
         );
     }, [answerArr]);
 
+    console.log(answerArr);
+
     const addDefaultAnswer = () => {
         const newAnswer = {
             id: crypto.randomUUID(),
@@ -44,16 +50,9 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
     };
 
     const setToQuizData = useCallback(() => {
-        const modifiedQuizQuestion: QuizData = {
-            id: crypto.randomUUID(),
-            question: question,
-            incorrectAnswers: answerArr.filter(({ isCorrectAnswer }) => !isCorrectAnswer).map(({ text }) => text),
-            correctAnswer: answerArr.filter(({ isCorrectAnswer }) => isCorrectAnswer).map(({ text }) => text),
-        };
-        const quizQuestion: quizDataStore = { id: crypto.randomUUID(), question, answerArr };
+        const quizQuestion: QuizData = { id: crypto.randomUUID(), question, answerArr };
 
-        dispatch(actions.addQuizData(modifiedQuizQuestion));
-        dispatch(actions.addQuizDataStore(quizQuestion));
+        dispatch(actions.addQuizData(quizQuestion));
         dispatch(actions.removeQuestion());
         setIsQuestionShow(false);
     }, [answerArr, dispatch, question, setIsQuestionShow]);
@@ -68,23 +67,34 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
             <Label className='mb-[16px] md:mb-[20px] last:m-0'>
                 <Content className='mb-[8px] last:mb-0'>Add Question</Content>
 
-                <div className='flex w-full items-center'>
-                    <Input
-                        name='question'
-                        className='pr-[32px]'
-                        value={questionValue}
-                        onChange={({ target }) => setQuestionValue(target.value)}
-                        onBlur={() => dispatch(actions.addQuestion(questionValue.trim()))}
-                    />
+                <div className='relative w-full'>
+                    <div className='flex w-full items-center mb-[4px] last:mb-0'>
+                        <Input
+                            name='question'
+                            className={cn('pr-[32px]', { 'border-red-500': error.length > 0 })}
+                            value={questionValue}
+                            onChange={({ target }) => setQuestionValue(target.value)}
+                            onBlur={() => {
+                                const value = isInputValuePresent(
+                                    questionValue,
+                                    'Question could be not empty',
+                                    setError
+                                );
+                                value && dispatch(actions.addQuestion(value));
+                            }}
+                        />
 
-                    <RemoveBtn onClick={removeQuestion} className='top-auto right-[10px]' />
+                        <RemoveBtn onClick={removeQuestion} className='top-auto right-[10px]' />
+                    </div>
+
+                    {error.length > 0 && <ErrorMessage>{error}</ErrorMessage>}
                 </div>
             </Label>
 
             <AnswersList />
 
             <div className='flex flex-col sm:flex-row w-full gap-[8px]'>
-                <Btn disabled={question.length <= 0} onClick={addDefaultAnswer}>
+                <Btn disabled={!questionValue || error.length > 0} onClick={addDefaultAnswer}>
                     Add Answer
                 </Btn>
 

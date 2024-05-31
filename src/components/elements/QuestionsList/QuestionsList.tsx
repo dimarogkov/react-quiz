@@ -3,12 +3,12 @@ import { useAppSelector } from '../../../store';
 
 export const QuestionsList = () => {
     const state = useAppSelector((state) => state.createQuiz);
-    const { quizDataStore } = state;
+    const { quizData } = state;
 
     return (
         <div className='relative w-full'>
-            {quizDataStore.length > 0 &&
-                quizDataStore.map(({ id, question, answerArr }) => {
+            {quizData.length > 0 &&
+                quizData.map(({ id, question, answerArr }) => {
                     return (
                         <div className='w-full mb-[16px] last:mb-0' key={id}>
                             <h3 className='w-full text-[20px] font-medium mb-[4px] last:mb-0'>{question}</h3>

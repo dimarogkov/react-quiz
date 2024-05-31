@@ -1,0 +1,8 @@
+type Props = {
+    children: React.ReactNode;
+    className?: string;
+};
+
+export const ErrorMessage: React.FC<Props> = ({ children, className = '' }) => {
+    return <p className={`w-full font-medium text-[14px] text-red-600 ${className}`}>{children}</p>;
+};
