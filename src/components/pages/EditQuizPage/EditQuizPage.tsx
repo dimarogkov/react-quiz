@@ -34,7 +34,7 @@ export const EditQuizPage = () => {
 
             <Title className='mb-[20px] lg:mb-[24px] last:mb-0'>Edit Quiz</Title>
 
-            <EditQuizForm />
+            <EditQuizForm quizId={getQuizId} />
         </section>
     );
 };

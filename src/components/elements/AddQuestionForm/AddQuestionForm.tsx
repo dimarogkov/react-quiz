@@ -37,8 +37,6 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
         );
     }, [answerArr]);
 
-    console.log(answerArr);
-
     const addDefaultAnswer = () => {
         const newAnswer = {
             id: crypto.randomUUID(),

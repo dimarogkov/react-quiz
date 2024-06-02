@@ -9,8 +9,7 @@ import { AnswerInputTypes } from '../../../types/enums/AnswerInputTypes';
 import { AddAnswerForm } from '../AddAnswerForm';
 
 export const AnswersList = () => {
-    const state = useAppSelector((state) => state.createQuiz);
-    const { answerArr } = state;
+    const answerArr = useAppSelector((state) => state.createQuiz.answerArr);
     const dispatch = useAppDispatch();
 
     const setAnswer = useCallback(

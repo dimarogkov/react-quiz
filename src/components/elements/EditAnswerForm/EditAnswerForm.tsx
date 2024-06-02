@@ -3,22 +3,22 @@ import cn from 'classnames';
 
 import { isInputValuePresent } from '../../../helpers/isInputValueExist';
 
-import { Answer } from '../../../types/interfaces/Answer';
 import { AnswerInputTypes } from '../../../types/enums/AnswerInputTypes';
+import { Answer } from '../../../types/interfaces/Answer';
 
-import { Label } from '../../ui/Label';
-import { Input } from '../../ui/Input';
-import { RemoveBtn } from '../../ui/RemoveBtn';
 import { ErrorMessage } from '../../ui/ErrorMessage';
+import { Input } from '../../ui/Input';
+import { Label } from '../../ui/Label';
+import { RemoveBtn } from '../../ui/RemoveBtn';
 
 type Props = {
     answer: Answer;
-    setAnswer: (value: string, currentAnswer: Answer, type: string) => void;
-    removeAnswer: (id: string) => void;
+    editAnswer: (currentId: any, value: any, type: any) => void;
+    removeAnswer: (answerId: string) => void;
 };
 
-export const AddAnswerForm: React.FC<Props> = ({ answer, setAnswer = () => {}, removeAnswer = () => {} }) => {
-    const [answerValue, setAnswerValue] = useState('');
+export const EditAnswerForm: React.FC<Props> = ({ answer, editAnswer = () => {}, removeAnswer = () => {} }) => {
+    const [answerValue, setAnswerValue] = useState(answer.text);
     const [error, setError] = useState('');
 
     return (
@@ -28,7 +28,7 @@ export const AddAnswerForm: React.FC<Props> = ({ answer, setAnswer = () => {}, r
                     type={AnswerInputTypes.checkbox}
                     name='answer_checkbox'
                     checked={answer.isCorrectAnswer}
-                    onChange={({ target }) => setAnswer(target.value, answer, AnswerInputTypes.checkbox)}
+                    onChange={({ target }) => editAnswer(target.value, answer, AnswerInputTypes.checkbox)}
                 />
 
                 <Input
@@ -39,7 +39,7 @@ export const AddAnswerForm: React.FC<Props> = ({ answer, setAnswer = () => {}, r
                     onChange={({ target }) => setAnswerValue(target.value)}
                     onBlur={() => {
                         const value = isInputValuePresent(answerValue, 'Answer could be not empty', setError);
-                        setAnswer(value ? value : '', answer, AnswerInputTypes.text);
+                        editAnswer(value ? value : '', answer, AnswerInputTypes.text);
                     }}
                 />
 
