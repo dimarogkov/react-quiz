@@ -2,8 +2,7 @@ import cn from 'classnames';
 import { useAppSelector } from '../../../store';
 
 export const QuestionsList = () => {
-    const state = useAppSelector((state) => state.createQuiz);
-    const { quizData } = state;
+    const quizData = useAppSelector((state) => state.createQuiz.quizData);
 
     return (
         <div className='relative w-full'>
