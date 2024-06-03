@@ -11,7 +11,6 @@ import { isInputValuePresent } from '../../../helpers/isInputValueExist';
 import { Quiz } from '../../../types/interfaces/Quiz';
 
 import { EditQuestionForm } from '../EditQuestionForm';
-
 import { Content } from '../../ui/Content';
 import { Input } from '../../ui/Input';
 import { Label } from '../../ui/Label';

@@ -1,6 +1,8 @@
-export const shuffleAnswers = (questions: string[]) => {
-    return questions
-        .map((a) => ({ sort: Math.random(), value: a }))
+import { Answer } from '../types/interfaces/Answer';
+
+export const shuffleAnswers = (answers: Answer[]) => {
+    return answers
+        .map((a) => ({ ...a, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
-        .map((a) => a.value);
+        .map((a) => ({ ...a }));
 };
