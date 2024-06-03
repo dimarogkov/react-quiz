@@ -9,7 +9,6 @@ import { isInputValuePresent } from '../../../helpers/isInputValueExist';
 import { QuizData } from '../../../types/interfaces/Quiz';
 
 import { AnswersList } from '../AnswersList';
-
 import { Label } from '../../ui/Label';
 import { Content } from '../../ui/Content';
 import { Input } from '../../ui/Input';

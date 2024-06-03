@@ -3,9 +3,11 @@ import { TypedUseSelectorHook, createDispatchHook, createSelectorHook } from 're
 
 import createQuizReducer from './createQuizReducer';
 import editQuizReducer from './editQuizReducer';
+import quizReducer from './quizReducer';
 
 export const store = configureStore({
     reducer: {
+        quiz: quizReducer,
         createQuiz: createQuizReducer,
         editQuiz: editQuizReducer,
     },
