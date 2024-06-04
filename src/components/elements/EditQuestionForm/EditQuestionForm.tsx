@@ -20,9 +20,10 @@ import { Btn } from '../../ui/Btn';
 
 type Props = {
     data: QuizData;
+    index: number;
 };
 
-export const EditQuestionForm: React.FC<Props> = ({ data }) => {
+export const EditQuestionForm: React.FC<Props> = ({ data, index }) => {
     const [questionValue, setQuestionValue] = useState(data.question);
     const [error, setError] = useState('');
     const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ export const EditQuestionForm: React.FC<Props> = ({ data }) => {
             isCorrectAnswer: false,
         };
 
-        dispatch(actions.addAnswer({ questionId: data.id, answer: newAnswer }));
+        dispatch(actions.addAnswer({ index, answer: newAnswer }));
     };
 
     const editAnswer = useCallback(
@@ -51,7 +52,7 @@ export const EditQuestionForm: React.FC<Props> = ({ data }) => {
                         return answer;
                     });
 
-                    const editedData = { dataId: data.id, data: { ...data, answerArr: modifiedAnswers } };
+                    const editedData = { index, data: { ...data, answerArr: modifiedAnswers } };
                     dispatch(actions.editAnswer(editedData));
                     break;
                 }
@@ -60,17 +61,18 @@ export const EditQuestionForm: React.FC<Props> = ({ data }) => {
 
                     newAnswers.splice(index, 1, { ...currentAnswer, text: value });
 
-                    const editedData = { dataId: data.id, data: { ...data, answerArr: newAnswers } };
+                    const editedData = { index, data: { ...data, answerArr: newAnswers } };
                     dispatch(actions.editAnswer(editedData));
                     break;
                 }
             }
         },
-        [data, dispatch]
+        [data, dispatch, index]
     );
 
     const removeAnswer = (answerId: string) => {
-        dispatch(actions.removeAnswer({ questionId: data.id, answerId }));
+        const filteredAnswers = data.answerArr.filter(({ id }) => id !== answerId);
+        dispatch(actions.removeAnswer({ index, answerArr: filteredAnswers }));
     };
 
     return (
@@ -91,7 +93,7 @@ export const EditQuestionForm: React.FC<Props> = ({ data }) => {
                                     'Question could be not empty',
                                     setError
                                 );
-                                value && dispatch(actions.editQuestion({ questionId: data.id, value }));
+                                value && dispatch(actions.editQuestion({ index, value }));
                             }}
                         />
 

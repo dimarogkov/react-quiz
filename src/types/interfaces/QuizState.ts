@@ -6,9 +6,7 @@ export interface QuizState {
     currentQuestionIndex: number;
     correctAnswersCount: number;
     showResults: boolean;
-    isAnswersSelected: boolean;
     questions: QuizData[];
     selectedAnswers: Answer[];
-    correctAnswers: Answer[];
     answers: Answer[];
 }
