@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
@@ -11,6 +11,7 @@ import { Answer } from '../../../types/interfaces/Answer';
 
 import { Question } from '../../elements/Question';
 import { Results } from '../../elements/Results';
+import { Timer } from '../../elements/Timer';
 import { BackLink } from '../../ui/BackLink';
 import { Title } from '../../ui/Title';
 import { Content } from '../../ui/Content';
@@ -36,27 +37,24 @@ export const QuizPage = () => {
         };
     }, [dispatch, getQuizId]);
 
-    const question = useMemo(() => questions[currentQuestionIndex], [currentQuestionIndex, questions]);
-
-    const isLastQuestion = useMemo(() => {
-        return currentQuestionIndex === questions.length - 1;
-    }, [currentQuestionIndex, questions.length]);
-
+    const isLastQuestion = currentQuestionIndex === questions.length - 1;
     const btnText = isLastQuestion ? 'End Quiz' : 'Next Question';
+    const question = questions[currentQuestionIndex];
 
     const selectAnswer = (answer: Answer) => {
-        dispatch(actions.selectAnswer(answer));
-    };
-
-    const unselectAnswer = (answer: Answer) => {
-        const index = selectedAnswers.findIndex(({ id }) => id === answer.id);
-        dispatch(actions.unselectAnswer(index));
+        const isAnswerAdded = selectedAnswers.some(({ id }) => id === answer.id);
+        !isAnswerAdded ? dispatch(actions.selectAnswer(answer)) : dispatch(actions.unselectAnswer(answer));
     };
 
     const checkAnswers = () => {
-        const isCurrentAnswersCorrect = selectedAnswers.every((correctAnswer) => correctAnswer);
+        const correctAnswers = question.answerArr.filter(({ isCorrectAnswer }) => isCorrectAnswer);
+        const incorrectAnswers = question.answerArr.filter(({ isCorrectAnswer }) => !isCorrectAnswer);
+        const findAnswer = (id: string) => !!selectedAnswers.find((answer) => answer.id === id);
 
-        dispatch(actions.checkAnswers(isCurrentAnswersCorrect));
+        const isCurrentAnswersCorrect = correctAnswers.every(({ id }) => findAnswer(id));
+        const isCurrentAnswersIncorrect = incorrectAnswers.some(({ id }) => findAnswer(id));
+
+        dispatch(actions.checkAnswers(isCurrentAnswersCorrect && !isCurrentAnswersIncorrect));
         setIsCheckBtnSelected(true);
     };
 
@@ -83,18 +81,22 @@ export const QuizPage = () => {
 
                     <Question
                         question={question}
+                        isCheckBtnSelected={isCheckBtnSelected}
                         selectedAnswers={selectedAnswers}
                         selectAnswer={selectAnswer}
-                        unselectAnswer={unselectAnswer}
                     />
 
-                    {!isCheckBtnSelected ? (
-                        <Btn disabled={selectedAnswers.length <= 0} onClick={checkAnswers}>
-                            Check
-                        </Btn>
-                    ) : (
-                        <Btn onClick={goToNextQuestion}>{btnText}</Btn>
-                    )}
+                    <div className='flex flex-col sm:flex-row items-center justify-between w-full gap-[8px]'>
+                        {!isCheckBtnSelected ? (
+                            <Btn disabled={selectedAnswers.length <= 0} onClick={checkAnswers}>
+                                Check
+                            </Btn>
+                        ) : (
+                            <Btn onClick={goToNextQuestion}>{btnText}</Btn>
+                        )}
+
+                        <Timer />
+                    </div>
                 </>
             )}
         </section>

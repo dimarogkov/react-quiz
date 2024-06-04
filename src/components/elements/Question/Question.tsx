@@ -6,16 +6,16 @@ import { Subtitle } from '../../ui/Subtitle';
 
 type Props = {
     question: QuizData;
+    isCheckBtnSelected: boolean;
     selectedAnswers: AnswerType[];
     selectAnswer: (answer: AnswerType) => void;
-    unselectAnswer: (answer: AnswerType) => void;
 };
 
 export const Question: React.FC<Props> = ({
     question,
+    isCheckBtnSelected,
     selectedAnswers,
     selectAnswer = () => {},
-    unselectAnswer = () => {},
 }) => {
     return (
         question && (
@@ -27,9 +27,9 @@ export const Question: React.FC<Props> = ({
                         question.answerArr.map((answer) => (
                             <Answer
                                 answer={answer}
+                                isCheckBtnSelected={isCheckBtnSelected}
                                 isAnswersSelected={selectedAnswers.some(({ id }) => id === answer.id)}
                                 selectAnswer={selectAnswer}
-                                unselectAnswer={unselectAnswer}
                                 key={answer.id}
                             />
                         ))}
