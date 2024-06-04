@@ -34,8 +34,8 @@ const quizSlice = createSlice({
         selectAnswer: (state, action: PayloadAction<Answer>) => {
             state.selectedAnswers.push(action.payload);
         },
-        unselectAnswer: (state, action: PayloadAction<number>) => {
-            state.selectedAnswers.splice(action.payload, 1);
+        unselectAnswer: (state, action: PayloadAction<Answer>) => {
+            state.selectedAnswers = state.selectedAnswers.filter(({ id }) => id !== action.payload.id);
         },
         checkAnswers: (state, action: PayloadAction<boolean>) => {
             state.correctAnswersCount = action.payload ? state.correctAnswersCount + 1 : state.correctAnswersCount;
