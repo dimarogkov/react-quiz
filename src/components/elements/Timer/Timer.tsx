@@ -14,5 +14,5 @@ export const Timer = () => {
         };
     }, []);
 
-    return <Content className='w-auto'>{formatTime(time)}</Content>;
+    return <Content className='sm:w-auto'>{formatTime(time)}</Content>;
 };

@@ -86,7 +86,7 @@ export const QuizPage = () => {
                         selectAnswer={selectAnswer}
                     />
 
-                    <div className='flex flex-col sm:flex-row items-center justify-between w-full gap-[8px]'>
+                    <div className='flex flex-col sm:flex-row items-center justify-between w-full gap-[12px]'>
                         {!isCheckBtnSelected ? (
                             <Btn disabled={selectedAnswers.length <= 0} onClick={checkAnswers}>
                                 Check

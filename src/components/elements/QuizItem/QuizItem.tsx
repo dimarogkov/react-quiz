@@ -15,7 +15,7 @@ export const QuizItem: React.FC<Props> = ({ quiz, removeQuiz = () => {} }) => {
     const { id, quizName, quizData } = quiz;
 
     return (
-        <div className='relative w-full h-full min-h-[160px] md:min-h-[200px] rounded-[8px] p-[20px] border-2 border-slate-300'>
+        <div className='relative w-full h-full min-h-[180px] md:min-h-[200px] rounded-[8px] p-[16px] sm:p-[20px] border-2 border-slate-300'>
             <div className='flex flex-col w-full h-full'>
                 <div className='flex-grow w-full mb-[16px] last:mb-0'>
                     <Subtitle className='mb-[8px] last:mb-0'>{quizName}</Subtitle>

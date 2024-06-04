@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import cn from 'classnames';
 
 import { isInputValuePresent } from '../../../helpers/isInputValueExist';
 
@@ -34,8 +33,9 @@ export const EditAnswerForm: React.FC<Props> = ({ answer, editAnswer = () => {},
                 <Input
                     name='answer_text'
                     placeholder='Add Answer'
-                    className={cn('px-[32px]', { 'border-red-500': error.length > 0 })}
+                    className='px-[32px]'
                     value={answerValue}
+                    isInvalid={error.length > 0}
                     onChange={({ target }) => setAnswerValue(target.value)}
                     onBlur={() => {
                         const value = isInputValuePresent(answerValue, 'Answer could be not empty', setError);
