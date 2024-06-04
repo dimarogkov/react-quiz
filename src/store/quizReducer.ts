@@ -11,10 +11,8 @@ const initialState: QuizState = {
     currentQuestionIndex: 0,
     correctAnswersCount: 0,
     showResults: false,
-    isAnswersSelected: false,
     questions: [],
     selectedAnswers: [],
-    correctAnswers: [],
     answers: [],
 };
 
@@ -27,46 +25,25 @@ const quizSlice = createSlice({
             state.questions = action.payload.quizData;
             state.answers = shuffleAnswers(state.questions[0].answerArr);
         },
-        nextQuestion: (state) => {
-            const isResultsShow = state.currentQuestionIndex === state.questions.length - 1;
-
-            state.currentQuestionIndex = !isResultsShow ? state.currentQuestionIndex + 1 : state.currentQuestionIndex;
-            state.answers = shuffleAnswers(state.questions[!isResultsShow ? state.currentQuestionIndex : 0].answerArr);
-            state.showResults = isResultsShow;
-            state.isAnswersSelected = false;
+        nextQuestion: (state, action: PayloadAction<boolean>) => {
+            state.currentQuestionIndex = !action.payload ? state.currentQuestionIndex + 1 : state.currentQuestionIndex;
+            state.answers = shuffleAnswers(state.questions[!action.payload ? state.currentQuestionIndex : 0].answerArr);
+            state.showResults = action.payload;
             state.selectedAnswers = [];
-            state.correctAnswers = [];
         },
         selectAnswer: (state, action: PayloadAction<Answer>) => {
             state.selectedAnswers.push(action.payload);
         },
-        unselectAnswer: (state, action: PayloadAction<Answer>) => {
-            const index = state.selectedAnswers.findIndex(({ id }) => id === action.payload.id);
-            state.selectedAnswers.splice(index, 1);
+        unselectAnswer: (state, action: PayloadAction<number>) => {
+            state.selectedAnswers.splice(action.payload, 1);
         },
-        checkAnswers: (state) => {
-            const answersEqual = (a: any, b: any) => {
-                return Object.keys(a).every((key) => a[key] === b[key]);
-            };
-            const correctAnswers = state.answers.filter(({ isCorrectAnswer }) => isCorrectAnswer);
-            const isCurrentAnswersCorrect = correctAnswers.every((correctAnswer) => {
-                return state.selectedAnswers.some((answer) => answersEqual(correctAnswer, answer));
-            });
-            console.log(isCurrentAnswersCorrect);
-
-            state.correctAnswersCount = isCurrentAnswersCorrect
-                ? state.correctAnswersCount + 1
-                : state.correctAnswersCount;
-
-            state.correctAnswers = correctAnswers;
-            state.isAnswersSelected = true;
+        checkAnswers: (state, action: PayloadAction<boolean>) => {
+            state.correctAnswersCount = action.payload ? state.correctAnswersCount + 1 : state.correctAnswersCount;
         },
         restartQuiz: (state) => {
             state.currentQuestionIndex = 0;
             state.correctAnswersCount = 0;
             state.showResults = false;
-            state.isAnswersSelected = false;
-            state.correctAnswers = [];
         },
         resetQuiz: () => initialState,
     },

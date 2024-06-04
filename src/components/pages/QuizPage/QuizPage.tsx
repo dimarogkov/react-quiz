@@ -7,6 +7,7 @@ import { actions } from '../../../store/quizReducer';
 import { getDataFromLocalStorage } from '../../../helpers/localStorage';
 
 import { Quiz } from '../../../types/interfaces/Quiz';
+import { Answer } from '../../../types/interfaces/Answer';
 
 import { Question } from '../../elements/Question';
 import { Results } from '../../elements/Results';
@@ -35,19 +36,32 @@ export const QuizPage = () => {
         };
     }, [dispatch, getQuizId]);
 
-    const btnText = useMemo(() => {
-        const isLastQuestion = currentQuestionIndex === questions.length - 1;
+    const question = useMemo(() => questions[currentQuestionIndex], [currentQuestionIndex, questions]);
 
-        return isLastQuestion ? 'End Quiz' : 'Next Question';
+    const isLastQuestion = useMemo(() => {
+        return currentQuestionIndex === questions.length - 1;
     }, [currentQuestionIndex, questions.length]);
 
+    const btnText = isLastQuestion ? 'End Quiz' : 'Next Question';
+
+    const selectAnswer = (answer: Answer) => {
+        dispatch(actions.selectAnswer(answer));
+    };
+
+    const unselectAnswer = (answer: Answer) => {
+        const index = selectedAnswers.findIndex(({ id }) => id === answer.id);
+        dispatch(actions.unselectAnswer(index));
+    };
+
     const checkAnswers = () => {
-        dispatch(actions.checkAnswers());
+        const isCurrentAnswersCorrect = selectedAnswers.every((correctAnswer) => correctAnswer);
+
+        dispatch(actions.checkAnswers(isCurrentAnswersCorrect));
         setIsCheckBtnSelected(true);
     };
 
     const goToNextQuestion = () => {
-        dispatch(actions.nextQuestion());
+        dispatch(actions.nextQuestion(isLastQuestion));
         setIsCheckBtnSelected(false);
     };
 
@@ -67,7 +81,12 @@ export const QuizPage = () => {
                         </Content>
                     </div>
 
-                    <Question />
+                    <Question
+                        question={question}
+                        selectedAnswers={selectedAnswers}
+                        selectAnswer={selectAnswer}
+                        unselectAnswer={unselectAnswer}
+                    />
 
                     {!isCheckBtnSelected ? (
                         <Btn disabled={selectedAnswers.length <= 0} onClick={checkAnswers}>

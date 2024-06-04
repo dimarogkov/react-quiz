@@ -84,7 +84,8 @@ export const EditQuizForm: React.FC<Props> = ({ quizId }) => {
                 {error.length > 0 && <ErrorMessage>{error}</ErrorMessage>}
             </Label>
 
-            {quizData.length > 0 && quizData.map((data) => <EditQuestionForm data={data} key={data.id} />)}
+            {quizData.length > 0 &&
+                quizData.map((data, index) => <EditQuestionForm data={data} index={index} key={data.id} />)}
 
             <div className='flex flex-col sm:flex-row w-full gap-[8px]'>
                 <Btn disabled={!isAddBtnDisabled} onClick={addDefaultQuestion}>

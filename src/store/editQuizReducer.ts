@@ -20,33 +20,26 @@ const editQuizSlice = createSlice({
         addQuestion: (state, action: PayloadAction<QuizData>) => {
             state.quizData.push(action.payload);
         },
-        addAnswer: (state, action: PayloadAction<{ questionId: string; answer: Answer }>) => {
-            const index = state.quizData.findIndex(({ id }) => id === action.payload.questionId);
-            state.quizData[index].answerArr.push(action.payload.answer);
+        addAnswer: (state, action: PayloadAction<{ index: number; answer: Answer }>) => {
+            state.quizData[action.payload.index].answerArr.push(action.payload.answer);
         },
         editQuizName: (state, action: PayloadAction<string>) => {
             state.quizName = action.payload;
         },
-        editQuestion: (state, action: PayloadAction<{ questionId: string; value: string }>) => {
-            const index = state.quizData.findIndex(({ id }) => id === action.payload.questionId);
-
-            state.quizData.splice(index, 1, {
-                ...state.quizData[index],
+        editQuestion: (state, action: PayloadAction<{ index: number; value: string }>) => {
+            state.quizData.splice(action.payload.index, 1, {
+                ...state.quizData[action.payload.index],
                 question: action.payload.value,
             });
         },
-        editAnswer: (state, action: PayloadAction<{ dataId: string; data: QuizData }>) => {
-            const index = state.quizData.findIndex(({ id }) => id === action.payload.dataId);
-            state.quizData[index] = action.payload.data;
+        editAnswer: (state, action: PayloadAction<{ index: number; data: QuizData }>) => {
+            state.quizData[action.payload.index] = action.payload.data;
         },
         removeQuestion: (state, action: PayloadAction<string>) => {
             state.quizData = state.quizData.filter(({ id }) => id !== action.payload);
         },
-        removeAnswer: (state, action: PayloadAction<{ questionId: string; answerId: string }>) => {
-            const index = state.quizData.findIndex(({ id }) => id === action.payload.questionId);
-            const arr = state.quizData[index].answerArr;
-
-            state.quizData[index].answerArr = arr.filter(({ id }) => id !== action.payload.answerId);
+        removeAnswer: (state, action: PayloadAction<{ index: number; answerArr: Answer[] }>) => {
+            state.quizData[action.payload.index].answerArr = action.payload.answerArr;
         },
     },
 });
