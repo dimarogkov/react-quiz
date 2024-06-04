@@ -1,21 +1,12 @@
-import { useState, useCallback } from 'react';
-import { getDataFromLocalStorage, setDataToLocalStorage } from '../../../helpers/localStorage';
 import { Quiz } from '../../../types/interfaces/Quiz';
 import { QuizItem } from '../QuizItem';
 
-export const QuizzesList = () => {
-    const [quizzesArr, setQuizzesArr] = useState<Quiz[]>(getDataFromLocalStorage());
+type Props = {
+    quizzesArr: Quiz[];
+    removeQuiz: (quizId: string) => void;
+};
 
-    const removeQuiz = useCallback(
-        (quizId: string) => {
-            const newQuizzesArr = [...quizzesArr].filter(({ id }) => id !== quizId);
-
-            setQuizzesArr(newQuizzesArr);
-            setDataToLocalStorage(newQuizzesArr);
-        },
-        [quizzesArr]
-    );
-
+export const QuizzesList: React.FC<Props> = ({ quizzesArr, removeQuiz = () => {} }) => {
     return (
         <>
             {quizzesArr.length > 0 &&

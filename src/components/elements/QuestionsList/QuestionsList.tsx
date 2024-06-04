@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { useAppSelector } from '../../../store';
+import { Subtitle } from '../../ui/Subtitle';
 
 export const QuestionsList = () => {
     const quizData = useAppSelector((state) => state.createQuiz.quizData);
@@ -10,7 +11,7 @@ export const QuestionsList = () => {
                 quizData.map(({ id, question, answerArr }) => {
                     return (
                         <div className='w-full mb-[16px] last:mb-0' key={id}>
-                            <h3 className='w-full text-[20px] font-medium mb-[4px] last:mb-0'>{question}</h3>
+                            <Subtitle className='mb-[4px] last:mb-0'>{question}</Subtitle>
 
                             <ul className='w-full'>
                                 {answerArr.map(({ id, text, isCorrectAnswer }) => (

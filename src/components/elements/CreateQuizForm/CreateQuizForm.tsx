@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import cn from 'classnames';
 
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { actions } from '../../../store/createQuizReducer';
@@ -44,8 +43,9 @@ export const CreateQuizForm = () => {
 
                 <Input
                     name='quizName'
-                    className={cn('mb-[4px] last:mb-0', { 'border-red-500': error.length > 0 })}
+                    className='mb-[4px] last:mb-0'
                     value={quizNameValue}
+                    isInvalid={error.length > 0}
                     onChange={({ target }) => setQuizNameValue(target.value)}
                     onBlur={() => {
                         const value = isInputValuePresent(quizNameValue, 'Quiz Name could be not empty', setError);

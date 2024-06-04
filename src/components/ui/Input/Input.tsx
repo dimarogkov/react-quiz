@@ -7,6 +7,7 @@ type Props = {
     value?: string;
     placeholder?: string;
     className?: string;
+    isInvalid?: boolean;
     checked?: boolean;
     autoFocus?: boolean;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -19,12 +20,16 @@ export const Input: React.FC<Props> = ({
     value = '',
     placeholder = '',
     className = '',
+    isInvalid = false,
     checked = false,
     autoFocus = false,
     onChange = () => {},
     onBlur = () => {},
 }) => {
-    const textStyles = `w-full h-[40px] px-[16px] rounded-[4px] border border-slate-300 outline-none transition-all duration-300 focus:border-black ${className}`;
+    const textStyles = `w-full h-[40px] px-[16px] rounded-[4px] border-2 ${
+        isInvalid ? 'border-rose-300' : 'border-slate-300'
+    } outline-none transition-all duration-300 focus:border-black ${className}`;
+
     const checkboxStyles = `absolute left-[10px] w-[16px] h-[16px] cursor-pointer ${className}`;
 
     return (

@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import cn from 'classnames';
 
 import { useAppDispatch } from '../../../store';
 import { actions } from '../../../store/editQuizReducer';
@@ -84,8 +83,9 @@ export const EditQuestionForm: React.FC<Props> = ({ data, index }) => {
                     <div className='flex w-full items-center mb-[4px] last:mb-0'>
                         <Input
                             name='question'
-                            className={cn('pr-[32px]', { 'border-red-500': error.length > 0 })}
+                            className='pr-[32px]'
                             value={questionValue}
+                            isInvalid={error.length > 0}
                             onChange={({ target }) => setQuestionValue(target.value)}
                             onBlur={() => {
                                 const value = isInputValuePresent(
