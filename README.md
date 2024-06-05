@@ -5,8 +5,8 @@
 ## Installation Steps
 
 -   Download the repository
--   run `npm i`
--   run `npm run start`
+-   Run `npm i`
+-   Run `npm run start`
 
 ## Technolgies used
 
