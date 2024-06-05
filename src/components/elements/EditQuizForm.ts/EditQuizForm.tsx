@@ -43,6 +43,11 @@ export const EditQuizForm: React.FC<Props> = ({ quizId }) => {
         });
     }, [quizData]);
 
+    const onBlur = () => {
+        const value = isInputValuePresent(quizNameValue, 'Quiz Name could be not empty', setError);
+        value && dispatch(actions.editQuizName(value));
+    };
+
     const addDefaultQuestion = () => {
         const newQuestion = {
             id: crypto.randomUUID(),
@@ -74,10 +79,7 @@ export const EditQuizForm: React.FC<Props> = ({ quizId }) => {
                     value={quizNameValue}
                     isInvalid={error.length > 0}
                     onChange={({ target }) => setQuizNameValue(target.value)}
-                    onBlur={() => {
-                        const value = isInputValuePresent(quizNameValue, 'Quiz Name could be not empty', setError);
-                        value && dispatch(actions.editQuizName(value));
-                    }}
+                    onBlur={onBlur}
                     autoFocus
                 />
 

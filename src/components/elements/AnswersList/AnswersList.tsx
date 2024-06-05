@@ -44,11 +44,11 @@ export const AnswersList = () => {
     const removeAnswer = (id: string) => dispatch(actions.removeAnswer(id));
 
     return (
-        <>
+        <ul>
             {answerArr.length > 0 &&
                 answerArr.map((answer) => (
                     <AddAnswerForm answer={answer} setAnswer={setAnswer} removeAnswer={removeAnswer} key={answer.id} />
                 ))}
-        </>
+        </ul>
     );
 };
