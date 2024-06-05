@@ -20,7 +20,16 @@ import { Btn } from '../../ui/Btn';
 export const QuizPage = () => {
     const [isCheckBtnSelected, setIsCheckBtnSelected] = useState(false);
     const state = useAppSelector((state) => state.quiz);
-    const { quizName, currentQuestionIndex, showResults, questions, selectedAnswers } = state;
+    const {
+        quizName,
+        currentQuestionIndex,
+        correctAnswersCount,
+        showResults,
+        questions,
+        selectedAnswers,
+        answers,
+        savedData,
+    } = state;
     const dispatch = useAppDispatch();
 
     const { quizId } = useParams();
@@ -54,7 +63,11 @@ export const QuizPage = () => {
         const isCurrentAnswersCorrect = correctAnswers.every(({ id }) => findAnswer(id));
         const isCurrentAnswersIncorrect = incorrectAnswers.some(({ id }) => findAnswer(id));
 
+        const answerArr = answers.map((answer) => ({ ...answer, isSelected: findAnswer(answer.id) }));
+        const data = { id: question.id, question: question.question, answerArr };
+
         dispatch(actions.checkAnswers(isCurrentAnswersCorrect && !isCurrentAnswersIncorrect));
+        dispatch(actions.saveData(data));
         setIsCheckBtnSelected(true);
     };
 
@@ -63,11 +76,20 @@ export const QuizPage = () => {
         setIsCheckBtnSelected(false);
     };
 
+    const restartQuiz = () => dispatch(actions.restartQuiz());
+
     return (
         <section className='relative w-full'>
             <BackLink href='/' className='mb-[8px] last:mb-0' />
 
-            {showResults && <Results />}
+            {showResults && (
+                <Results
+                    correctCount={correctAnswersCount}
+                    questionsLength={questions.length}
+                    data={savedData}
+                    restartQuiz={restartQuiz}
+                />
+            )}
 
             {!showResults && (
                 <>
