@@ -1,7 +1,5 @@
 # React Quiz App
 
-## Project Demo
-
 [Project Demo](https://dimarogkov.github.io/react-quiz/)
 
 ## Installation Steps
