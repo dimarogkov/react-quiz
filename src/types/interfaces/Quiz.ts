@@ -1,4 +1,10 @@
-import { Answer } from './Answer';
+import { Answer, SavedAnswer } from './Answer';
+
+export interface SavedQuizData {
+    id: string;
+    question: string;
+    answerArr: SavedAnswer[];
+}
 
 export interface QuizData {
     id: string;

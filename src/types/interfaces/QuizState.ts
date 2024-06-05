@@ -1,5 +1,5 @@
 import { Answer } from './Answer';
-import { QuizData } from './Quiz';
+import { QuizData, SavedQuizData } from './Quiz';
 
 export interface QuizState {
     quizName: string;
@@ -9,4 +9,5 @@ export interface QuizState {
     questions: QuizData[];
     selectedAnswers: Answer[];
     answers: Answer[];
+    savedData: SavedQuizData[];
 }

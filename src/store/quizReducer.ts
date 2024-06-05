@@ -3,7 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { shuffleAnswers } from '../helpers/shuffleAnswers';
 
 import { QuizState } from '../types/interfaces/QuizState';
-import { Quiz } from '../types/interfaces/Quiz';
+import { Quiz, SavedQuizData } from '../types/interfaces/Quiz';
 import { Answer } from '../types/interfaces/Answer';
 
 const initialState: QuizState = {
@@ -14,6 +14,7 @@ const initialState: QuizState = {
     questions: [],
     selectedAnswers: [],
     answers: [],
+    savedData: [],
 };
 
 const quizSlice = createSlice({
@@ -39,6 +40,9 @@ const quizSlice = createSlice({
         },
         checkAnswers: (state, action: PayloadAction<boolean>) => {
             state.correctAnswersCount = action.payload ? state.correctAnswersCount + 1 : state.correctAnswersCount;
+        },
+        saveData: (state, action: PayloadAction<SavedQuizData>) => {
+            state.savedData.push(action.payload);
         },
         restartQuiz: (state) => {
             state.currentQuestionIndex = 0;
