@@ -27,6 +27,11 @@ export const EditQuestionForm: React.FC<Props> = ({ data, index }) => {
     const [error, setError] = useState('');
     const dispatch = useAppDispatch();
 
+    const onBlur = () => {
+        const value = isInputValuePresent(questionValue, 'Question could be not empty', setError);
+        value && dispatch(actions.editQuestion({ index, value }));
+    };
+
     const addDefaultAnswer = () => {
         const newAnswer = {
             id: crypto.randomUUID(),
@@ -87,14 +92,7 @@ export const EditQuestionForm: React.FC<Props> = ({ data, index }) => {
                             value={questionValue}
                             isInvalid={error.length > 0}
                             onChange={({ target }) => setQuestionValue(target.value)}
-                            onBlur={() => {
-                                const value = isInputValuePresent(
-                                    questionValue,
-                                    'Question could be not empty',
-                                    setError
-                                );
-                                value && dispatch(actions.editQuestion({ index, value }));
-                            }}
+                            onBlur={onBlur}
                         />
 
                         <RemoveBtn

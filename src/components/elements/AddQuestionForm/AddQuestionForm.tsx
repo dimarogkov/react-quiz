@@ -35,6 +35,11 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
         );
     }, [answerArr]);
 
+    const onBlur = () => {
+        const value = isInputValuePresent(questionValue, 'Question could be not empty', setError);
+        value && dispatch(actions.addQuestion(value));
+    };
+
     const addDefaultAnswer = () => {
         const newAnswer = {
             id: crypto.randomUUID(),
@@ -71,14 +76,7 @@ export const AddQuestionForm: React.FC<Props> = ({ setIsQuestionShow }) => {
                             value={questionValue}
                             isInvalid={error.length > 0}
                             onChange={({ target }) => setQuestionValue(target.value)}
-                            onBlur={() => {
-                                const value = isInputValuePresent(
-                                    questionValue,
-                                    'Question could be not empty',
-                                    setError
-                                );
-                                value && dispatch(actions.addQuestion(value));
-                            }}
+                            onBlur={onBlur}
                         />
 
                         <RemoveBtn onClick={removeQuestion} className='top-auto right-[10px]' />

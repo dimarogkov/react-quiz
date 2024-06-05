@@ -26,6 +26,11 @@ export const CreateQuizForm = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const onBlur = () => {
+        const value = isInputValuePresent(quizNameValue, 'Quiz Name could be not empty', setError);
+        value && dispatch(actions.addQuizName(value));
+    };
+
     const saveQuiz = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const quizzes = getDataFromLocalStorage();
@@ -47,10 +52,7 @@ export const CreateQuizForm = () => {
                     value={quizNameValue}
                     isInvalid={error.length > 0}
                     onChange={({ target }) => setQuizNameValue(target.value)}
-                    onBlur={() => {
-                        const value = isInputValuePresent(quizNameValue, 'Quiz Name could be not empty', setError);
-                        value && dispatch(actions.addQuizName(value));
-                    }}
+                    onBlur={onBlur}
                     autoFocus
                 />
 

@@ -20,6 +20,11 @@ export const EditAnswerForm: React.FC<Props> = ({ answer, editAnswer = () => {},
     const [answerValue, setAnswerValue] = useState(answer.text);
     const [error, setError] = useState('');
 
+    const onBlur = () => {
+        const value = isInputValuePresent(answerValue, 'Answer could be not empty', setError);
+        editAnswer(value ? value : '', answer, AnswerInputTypes.text);
+    };
+
     return (
         <Label className='w-full mb-[16px] md:mb-[20px] last:m-0'>
             <div className='flex items-center w-full mb-[4px] last:mb-0'>
@@ -37,10 +42,7 @@ export const EditAnswerForm: React.FC<Props> = ({ answer, editAnswer = () => {},
                     value={answerValue}
                     isInvalid={error.length > 0}
                     onChange={({ target }) => setAnswerValue(target.value)}
-                    onBlur={() => {
-                        const value = isInputValuePresent(answerValue, 'Answer could be not empty', setError);
-                        editAnswer(value ? value : '', answer, AnswerInputTypes.text);
-                    }}
+                    onBlur={onBlur}
                 />
 
                 <RemoveBtn className='top-auto right-[10px]' onClick={() => removeAnswer(answer.id)} />
