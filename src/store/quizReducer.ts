@@ -48,6 +48,7 @@ const quizSlice = createSlice({
             state.currentQuestionIndex = 0;
             state.correctAnswersCount = 0;
             state.showResults = false;
+            state.savedData = [];
         },
         resetQuiz: () => initialState,
     },
