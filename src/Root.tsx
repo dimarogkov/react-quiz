@@ -9,7 +9,7 @@ import { QuizPage } from './components/pages/QuizPage';
 
 export const Root = () => {
     return (
-        <Router>
+        <Router basename='/react-quiz'>
             <Routes>
                 <Route path='/' element={<App />}>
                     <Route index element={<HomePage />} />
