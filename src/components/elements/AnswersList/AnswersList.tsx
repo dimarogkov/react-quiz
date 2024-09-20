@@ -44,7 +44,7 @@ export const AnswersList = () => {
     const removeAnswer = (id: string) => dispatch(actions.removeAnswer(id));
 
     return (
-        <ul>
+        <ul className='mb-[16px] md:mb-[20px] last:mb-0'>
             {answerArr.length > 0 &&
                 answerArr.map((answer) => (
                     <AddAnswerForm answer={answer} setAnswer={setAnswer} removeAnswer={removeAnswer} key={answer.id} />
